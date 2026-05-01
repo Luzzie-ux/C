@@ -1,12 +1,8 @@
-*This README is made for the sole reason of learning how to utilize linked lists, made by Luz*
+# Pointers
 
-# Programming in the C Language
+As a low-level language that lets us handle memory manually and dynamically, C gives us pointers to access memory addresses and its values to do so you only need
 
-## Pointers
-
-As a low-level language that lets us handle memory manually and dynamically, C gives us pointers to acess memory addresses and its values to do so you only need
-
-> The Asterisk *.
+> The Asterisk *
 
 An `*` signifies that now a variable or its name points to its address.
 
