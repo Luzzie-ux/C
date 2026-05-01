@@ -8,7 +8,7 @@ t_list	*ft_lstnew(void *content)
 		return NULL;
 	node->content = content;
 	node->next = NULL;
-	return node;
+	return *node;
 }
 
 
