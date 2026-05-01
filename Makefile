@@ -6,12 +6,12 @@ CFLAGS = -Wall -Wextra -Werror
 
 SRCS = $(wildcard *.c)
 
-OBJS = $(SRCS: .c=.o)
+OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	ar rcs $(NAME) $(OBJS) $^
+	ar rcs $(NAME) $(OBJS)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
