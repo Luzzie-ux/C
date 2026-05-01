@@ -1,12 +1,14 @@
 NAME = struct.a
+
 CC = cc
+
 CFLAGS = -Wall -Wextra -Werror
+
 SRCS = $(wildcard *.c)
+
 OBJS = $(SRCS: .c=.o)
 
 all: $(NAME)
-
-bonus: $(NAME)
 
 $(NAME): $(OBJS)
 	ar rcs $(NAME) $(OBJS) $^
@@ -22,4 +24,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re
