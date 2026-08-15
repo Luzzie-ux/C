@@ -1,0 +1,79 @@
+C_STRING LIBRARY — POSSIBLE NEXT METHODS
+==========================================
+(Extends your current struct: content, length, copy, duplicate)
+
+1. append / concat
+   Signature:  int append(string *self, const char *suffix);
+   Requires:   realloc on self->content, recompute strlen, careful failure
+               handling (if realloc fails, the ORIGINAL pointer is still
+               valid — don't overwrite self->content until you know the
+               realloc succeeded, or you'll leak/corrupt it).
+   Gotcha:     realloc(ptr, n) can return a NEW address; never call
+               free(ptr) after a successful realloc — it already handled
+               the old block.
+
+2. equals
+   Signature:  int equals(const string *self, const string *other);
+   Requires:   strcmp(self->content, other->content) == 0
+   Gotcha:     NULL-check both self, other, and both ->content first.
+
+3. substring / slice
+   Signature:  string *substring(const string *self, int start, int end);
+   Requires:   bounds checking (0 <= start <= end <= length), allocate
+               (end - start + 1) bytes, copy that range, null-terminate.
+   Gotcha:     off-by-one on the length calculation is easy here —
+               write a test with start == end (empty string result).
+
+4. indexOf / contains
+   Signature:  int indexOf(const string *self, const char *needle);
+   Requires:   strstr(self->content, needle); convert pointer result
+               to an index by subtracting self->content, or return -1
+               if not found (strstr returns NULL).
+
+5. toUpper / toLower
+   Signature:  void toUpper(string *self);
+   Requires:   loop over content, apply toupper()/tolower() from ctype.h,
+               in place — no new allocation needed.
+   Gotcha:     toupper/tolower take an int; cast char to unsigned char
+               first to avoid undefined behavior on platforms where
+               char is signed and the byte value is negative.
+
+6. trim
+   Signature:  void trim(string *self);
+   Requires:   find first non-whitespace index and last non-whitespace
+               index, memmove the substring to the front, then
+               realloc down (optional) and null-terminate.
+   Gotcha:     handle the all-whitespace case (result should be "").
+
+7. clear
+   Signature:  void clear(string *self);
+   Requires:   free existing content, malloc(1) for content, set to "".
+   Use case:   reuse an object without destroying/recreating it.
+
+8. capacity tracking (structural change)
+   Requires:   add `int capacity;` field to the struct alongside length.
+               append() then only reallocs when capacity is exceeded,
+               growing geometrically (e.g. double capacity each time)
+               instead of reallocating on every single append call.
+   Why:        turns repeated appends from O(n) reallocs into amortized
+               O(1) — this is how real string builders (e.g. C++'s
+               std::string, Java's StringBuilder) stay fast.
+
+9. print / toCString
+   Signature:  void print(const string *self);
+   Requires:   just wraps printf("%s\n", self->content); for style
+               consistency with the rest of the "everything is a
+               method" API.
+
+GENERAL REQUIREMENTS ACROSS ALL OF THE ABOVE
+----------------------------------------------
+- Every new function pointer must be added to the struct definition
+  AND assigned in both String() and copy() (both constructors), or
+  objects built one way will be missing methods the other way has.
+- Keep const-correctness consistent: read-only methods should take
+  `const string *self` to match your existing length/copy/duplicate
+  pattern — mismatches there are exactly the compiler error you hit
+  earlier in this thread.
+- Every function that can fail (malloc/realloc) should return a
+  status (int) rather than silently doing nothing, following the
+  pattern already set by duplicate() returning -1/0.
