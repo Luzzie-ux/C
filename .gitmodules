@@ -7,3 +7,9 @@
 [submodule "Libft"]
 	path = Libft
 	url = git@github.com:Luzzie-ux/Libft.git
+[submodule "Piscine-42"]
+	path = Piscine-42
+	url = git@github.com:Luzzie-ux/Piscine-42.git
+[submodule "reload"]
+	path = reload
+	url = git@github.com:Luzzie-ux/reload.git
