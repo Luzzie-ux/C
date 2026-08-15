@@ -1,3 +1,6 @@
 [submodule "Push_Swap"]
 	path = Push_Swap
 	url = git@github.com:Luzzie-ux/Push_Swap.git
+[submodule "Cpp-Modules"]
+	path = Cpp-Modules
+	url = git@github.com:Luzzie-ux/Cpp-Modules.git
