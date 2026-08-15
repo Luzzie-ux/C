@@ -4,3 +4,6 @@
 [submodule "Cpp-Modules"]
 	path = Cpp-Modules
 	url = git@github.com:Luzzie-ux/Cpp-Modules.git
+[submodule "Libft"]
+	path = Libft
+	url = git@github.com:Luzzie-ux/Libft.git
