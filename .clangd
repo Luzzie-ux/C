@@ -1,0 +1,9 @@
+CompileFlags:
+  Add: [-Wall, -Wextra, -Werror]
+  Remove: []
+
+Diagnostics:
+  UnusedIncludes: Strict
+
+Index:
+  Background: Build

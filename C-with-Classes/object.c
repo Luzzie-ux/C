@@ -36,15 +36,16 @@ void _Object(object **self)
 		return;
 	if (!(*self)->tag)
 	{
-		if (!(*self)->name)
+		if (!(*self)->type)
 			return (free(*self));
-		return (free((*self)->name), free(*self));
+		return (free((*self)->type), free(*self));
 	}
-	if (!(*self)->name)
+	if (!(*self)->type)
 		return (free(*self));
-	return (free((*self)->tag), free((*self)->name));
+	return (free((*self)->tag), free((*self)->type));
 	(*self)->tag = NULL;
-	(*self)->name = NULL;
+	(*self)->type = NULL;
+	(*self)->size = 0;
 	free(*self);
 }
 
@@ -59,23 +60,23 @@ static void settag(char *c, const char *suf, const char *n)
 	c[2 + size_n + size_c] = 0;
 }
 
-object *Object(const char *name)
+object *Object(const char *type, size_t size)
 {
-	if (!name)
+	if (!type)
 		return (NULL);
 	const char *suf = "Class";
 	object *cls = (object *)malloc(sizeof(object));
 	if (!cls)
 		return (NULL);
-	size_t n = ft_strlen(name);
+	size_t n = ft_strlen(type);
 	size_t c = ft_strlen(suf);
-	cls->name = ft_strdup(name);
-	if (!cls->name)
+	cls->type = ft_strdup(type);
+	if (!cls->type)
 		return (_Object(&cls), NULL);
 	cls->tag = (char *)malloc(sizeof(char) * (n + c) + 3);
 	if (!cls->tag)
 		return (_Object(&cls), NULL);
-	settag(cls->tag, suf, name);
-	cls->size = sizeof(object);
+	settag(cls->tag, suf, type);
+	cls->size = size;
 	return (cls);
 }
