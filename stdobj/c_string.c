@@ -35,6 +35,7 @@ static void assign_methods(string **self)
 
 string *String(const char *value)
 {
+
 	if (!value)
 	{
 		write(2, "Returning (null)\n", 18);
