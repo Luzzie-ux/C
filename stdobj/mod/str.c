@@ -9,10 +9,10 @@ char *Str(const char format, va_list args)
 	case 'f':
 		return (ft_ftoa(va_arg(args, double)));
 	case 's':
-		return (va_arg(args, char *));
+		return (ft_strdup((va_arg(args, char *))));
 	case 'p':
 		return (ft_ptoa(va_arg(args, void *)));
 	default:
-		return (NULL);
+		return (ft_strdup((va_arg(args, char *))));
 	}
 }

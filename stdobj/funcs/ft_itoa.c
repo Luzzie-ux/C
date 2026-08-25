@@ -1,50 +1,57 @@
 #include "ftlib.h"
-#include <stddef.h>
 
-static char *init_buf(const long *i64)
+static count_t count(int64_t i64)
 {
-	size_t n = (*i64 < 0) ? 1 : 0;
-	for (long j = *i64; j != 0; n++)
-		j /= 10;
-	char *buf = (char *)malloc(sizeof(char) * n + 1);
-	if (!buf)
+	count_t len = (i64 < 0) ? 1 : 0;
+	for (int64_t n = i64; n != 0; n /= 10)
+		len++;
+	return (len);
+}
+
+char *ft_itoa(const int32_t i32)
+{
+	int64_t i64 = i32;
+	size_t size = (i64 == 0) ? 1 : count(i64);
+	char *buffer = malloc(size + 1);
+	if (!buffer)
 		return (NULL);
-	return (buf);
+	buffer[size] = 0;
+	if (i64 == 1)
+		return (buffer[size - 1] = '0', buffer);
+	if (i64 < 0)
+		buffer[0] = '-';
+	for (int64_t i = (size - 1); i > 0; i--)
+	{
+		buffer[i] = (i64 < 0) ? ((i64 % 10) * -1) + '0' : (i64 % 10) + '0';
+		i64 /= 10;
+	}
+	if (i64)
+		buffer[0] = (i64 + '0');
+	return (buffer);
 }
 
-static void populate(char **buf, long *i64)
-{
-	char *ptr = *buf;
-	int n = 0;
-	long j = *i64;
-	while (j != 0)
-	{
-		n = j % 10;
-		if (j < 0)
-			n *= -1;
-		*ptr++ = n + '0';
-		j /= 10;
-	}
-	if (*i64 < 0)
-		*ptr++ = '-';
-	*ptr = 0;
-}
 
-char *ft_itoa(int i)
+/*
+char *ft_itoa(const int32_t i32)
 {
-	if (i == 0)
-		return (ft_strdup("0"));
-	long i64 = i;
-	char *buf = init_buf(&i64);
-	populate(&buf, &i64);
-	char tmp;
-	int end = ft_strlen(buf) - 1;
-	for (int s = 0; s < end; end--)
-	{
-		tmp = buf[s];
-		buf[s] = buf[end];
-		buf[end] = tmp;
-		s++;
-	}
-	return (buf);
+    char     tmp[11];
+    char     *p = tmp + 11;      // one-past-the-end
+    int64_t  i64 = i32;
+    uint64_t n = (i64 < 0) ? -(uint64_t)i64 : (uint64_t)i64;
+
+    do {
+        *--p = (n % 10) + '0';
+        n /= 10;
+    } while (n != 0);
+    if (i64 < 0)
+        *--p = '-';
+
+    size_t len = (tmp + 11) - p;
+    char *buffer = malloc(len + 1);
+    if (!buffer)
+        return (NULL);
+    memcpy(buffer, p, len);
+    buffer[len] = '\0';
+    return (buffer);
 }
+*/

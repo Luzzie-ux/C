@@ -3,9 +3,6 @@
 
 #include "object.h"
 
-size_t ft_strlen(const char *s);
-char *ft_strdup(const char *s);
-
 typedef struct c_string
 {
 	size_t len;
