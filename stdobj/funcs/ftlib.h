@@ -17,7 +17,11 @@ typedef long double float128_t;
 typedef unsigned long count_t;
 
 char	*ft_strdup(const char *s);
-char	*ft_itoa(const int32_t i32);
+char	*ft_itoa(const int64_t i64);
+
+# define MAX_DIGITS 20
+# define MAXD MAX_DIGITS
+
 char	*ft_ftoa(double f);
 char	*ft_ptoa(void *p);
 
