@@ -1,5 +1,5 @@
-#ifndef FTLIB_H
-# define FTLIB_H
+#ifndef FUNCS_H
+# define FUNCS_H
 
 # include <stdio.h>
 # include <stddef.h>
@@ -22,9 +22,7 @@ char	*ft_itoa(const int64_t i64);
 # define MAX_DIGITS 20
 # define MAXD MAX_DIGITS
 
-char	*ft_ftoa(double f);
-char	*ft_ptoa(void *p);
-
 size_t	ft_strlen(const char *s);
 
-#endif
+
+#endif /*FUNCS_H*/
